@@ -22,13 +22,16 @@ public class AttachmentDTO {
 	private String decrizione;
 	private LocalDate dataCreazione;
 	private byte[] payload;
+	
+	private RisorsaDTO risorsa;
+
 
 	public static AttachmentDTO buildAttachmentDTOFromModel(Attachment AttachmentModel) {
 
 		AttachmentDTO result = AttachmentDTO.builder().id(AttachmentModel.getId())
 				.fileName(AttachmentModel.getFileName()).contentType(AttachmentModel.getContentType())
 				.decrizione(AttachmentModel.getDecrizione()).dataCreazione(AttachmentModel.getDataCreazione())
-				.payload(AttachmentModel.getPayload()).build();
+				.payload(AttachmentModel.getPayload()).risorsa(RisorsaDTO.buildRisorsaDTOFromModel(AttachmentModel.getRisorsa())).build();
 		return result;
 	}
 
@@ -38,10 +41,17 @@ public class AttachmentDTO {
 			return result;
 		}).collect(Collectors.toList());
 	}
+	
+	public static List<Attachment> createCommessaListFromDTOList(List<AttachmentDTO> DTOListInput) {
+		return DTOListInput.stream().map(attachmentDTOEntity -> {
+			Attachment result = attachmentDTOEntity.buildAttachmentModel();
+			return result;
+		}).collect(Collectors.toList());
+	}
 
 	public Attachment buildAttachmentModel() {
 		Attachment result = Attachment.builder().id(this.id).fileName(this.fileName).contentType(this.contentType)
-				.decrizione(this.decrizione).dataCreazione(this.dataCreazione).payload(this.payload).build();
+				.decrizione(this.decrizione).dataCreazione(this.dataCreazione).payload(this.payload).risorsa(this.risorsa.buildRisorsaModel()).build();
 
 		return result;
 	}
