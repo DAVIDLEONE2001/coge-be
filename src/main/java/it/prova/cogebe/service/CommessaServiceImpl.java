@@ -17,40 +17,30 @@ public class CommessaServiceImpl implements CommessaService {
 	private CommessaRepository repository;
 
 	@Override
-	public List<Commessa> listAll() throws Exception {
+	public List<Commessa> listAll() {
 		return (List<Commessa>) repository.findAll();
 	}
 
 	@Override
-	public Commessa caricaSingoloElemento(Long id) throws Exception {
+	public Commessa caricaSingoloElemento(Long id) {
 		return repository.findById(id).orElse(null);
 	}
 
 	@Transactional
 	@Override
-	public Commessa aggiorna(Commessa commessaInstance) throws Exception {
-		if (commessaInstance == null || commessaInstance.getId() == null
-				|| caricaSingoloElemento(commessaInstance.getId()) == null) {
-			throw new Exception("Impossibile aggiornare la commessa.");
-		}
+	public Commessa aggiorna(Commessa commessaInstance) {
 		return repository.save(commessaInstance);
 	}
 
 	@Transactional
 	@Override
-	public Commessa inserisciNuovo(Commessa commessaInstance) throws Exception {
-		if (commessaInstance == null) {
-			throw new Exception("Impossibile inserire una commessa nulla.");
-		}
+	public Commessa inserisciNuovo(Commessa commessaInstance) {
 		return repository.save(commessaInstance);
 	}
 
 	@Transactional
 	@Override
-	public void rimuovi(Long id) throws Exception {
-		if (id == null || caricaSingoloElemento(id) == null) {
-			throw new Exception("Impossibile rimuovere la commessa.");
-		}
-		repository.deleteById(id);
+	public void rimuovi(Long idRapportino) {
+		repository.deleteById(idRapportino);
 	}
 }
