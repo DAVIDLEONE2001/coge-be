@@ -30,7 +30,8 @@ public class CommessaDTO {
 	public static CommessaDTO buildCommessaDTOFromModel(Commessa commessaModel) {
 
 		CommessaDTO result = CommessaDTO.builder().id(commessaModel.getId()).descrizione(commessaModel.getDescrizione())
-				.codice(commessaModel.getCodice()).dataIn(commessaModel.getDataIn()).dataOut(commessaModel.getDataOut())
+				.codice(commessaModel
+						.getCodice()).dataIn(commessaModel.getDataIn()).dataOut(commessaModel.getDataOut())
 				.importo(commessaModel.getImporto())
 				.risorse(RisorsaDTO.createRisorsaDTOListFromModelList(commessaModel.getRisorse())).build();
 		return result;

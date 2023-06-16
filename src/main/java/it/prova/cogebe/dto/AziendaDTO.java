@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 
 import it.prova.cogebe.model.Azienda;
-import it.prova.cogebe.model.Commessa;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,15 +28,15 @@ public class AziendaDTO {
 	@NotBlank(message = "{partitaIva.notblank}")
 	private String indirizzo;
 
-	List<Commessa> commesse;
+	List<CommessaDTO> commesse;
 
 	public static AziendaDTO buildAziendaDTOFromModel(Azienda aziendaModel) {
 
 		AziendaDTO result = AziendaDTO.builder().id(aziendaModel.getId())
 				.ragioneSociale(aziendaModel.getRagioneSociale()).partitaIva(aziendaModel.getPartitaIva())
-				.indirizzo(aziendaModel.getIndirizzo()).build();
+				.indirizzo(aziendaModel.getIndirizzo())
+				.commesse(CommessaDTO.createCommessaDTOListFromModelList(aziendaModel.getCommesse())).build();
 
-//	.commesse(atletaModel.getNumeroMedaglieVinte()).build();
 		return result;
 	}
 
@@ -53,6 +52,14 @@ public class AziendaDTO {
 				.indirizzo(this.indirizzo).build();
 
 		return result;
+
+	}
+
+	public static List<Azienda> createAziendaListFromDTOList(List<AziendaDTO> modelListInput) {
+		return modelListInput.stream().map(commessaDTOEntity -> {
+			Azienda result = commessaDTOEntity.buildAziendaModel();
+			return result;
+		}).collect(Collectors.toList());
 	}
 
 }
