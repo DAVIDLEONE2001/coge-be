@@ -40,8 +40,8 @@ public class Risorsa {
 	private LocalDate dataIn;
 	@Column(name = "dataout")
 	private LocalDate dataOut;
-	@Column(name = "coficefiscale")
-	private String coficeFiscale;
+	@Column(name = "codicefiscale")
+	private String codiceFiscale;
 	@Column(name = "email")
 	private String email;
 	@Column(name = "costogiornaliero")
