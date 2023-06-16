@@ -24,7 +24,7 @@ public class CommessaDTO {
 	private LocalDate dataOut;
 	private Integer importo;
 
-	private Azienda azienda;
+	private AziendaDTO azienda;
 	private List<RisorsaDTO> risorse;
 
 	public static CommessaDTO buildCommessaDTOFromModel(Commessa commessaModel) {
@@ -33,7 +33,8 @@ public class CommessaDTO {
 				.codice(commessaModel
 						.getCodice()).dataIn(commessaModel.getDataIn()).dataOut(commessaModel.getDataOut())
 				.importo(commessaModel.getImporto())
-				.risorse(RisorsaDTO.createRisorsaDTOListFromModelList(commessaModel.getRisorse())).build();
+				.risorse(RisorsaDTO.createRisorsaDTOListFromModelList(commessaModel.getRisorse()))
+				.azienda(AziendaDTO.buildAziendaDTOFromModel(commessaModel.getAzienda())).build();
 		return result;
 	}
 
