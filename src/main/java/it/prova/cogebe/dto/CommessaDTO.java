@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import it.prova.cogebe.model.Azienda;
 import it.prova.cogebe.model.Commessa;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

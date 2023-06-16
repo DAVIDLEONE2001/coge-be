@@ -17,30 +17,30 @@ public class AttachmentServiceImpl implements AttachmentService {
 	private AttachmentRepository repository;
 	
 	@Override
-	public List<Attachment> listAll() throws Exception {
+	public List<Attachment> listAll(){
 		return (List<Attachment>) repository.findAll();
 	}
 
 	@Override
-	public Attachment caricaSingoloElemento(Long id) throws Exception {
-		return repository.findById(id).orElseThrow(() -> new Exception());
+	public Attachment caricaSingoloElemento(Long id) {
+		return repository.findById(id).orElse(null);
 	}
 
 	@Override
 	@Transactional
-	public Attachment aggiorna(Attachment attachmentInstance) throws Exception {
+	public Attachment aggiorna(Attachment attachmentInstance){
 		return repository.save(attachmentInstance);
 	}
 
 	@Override
 	@Transactional
-	public Attachment inserisciNuovo(Attachment attachmentInstance) throws Exception {
+	public Attachment inserisciNuovo(Attachment attachmentInstance) {
 		return repository.save(attachmentInstance);
 	}
 
 	@Override
 	@Transactional
-	public void rimuovi(Long idAttachment) throws Exception {
+	public void rimuovi(Long idAttachment){
 		repository.deleteById(idAttachment);
 	}
 
