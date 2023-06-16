@@ -2,10 +2,7 @@ package it.prova.cogebe.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 import javax.validation.constraints.NotBlank;
 
 import it.prova.cogebe.model.Azienda;
@@ -35,7 +32,6 @@ public class AziendaDTO {
 
 	public static AziendaDTO buildAziendaDTOFromModel(Azienda aziendaModel) {
 
-<<<<<<< Updated upstream
 		AziendaDTO result = AziendaDTO.builder().id(aziendaModel.getId())
 				.ragioneSociale(aziendaModel.getRagioneSociale()).partitaIva(aziendaModel.getPartitaIva())
 				.indirizzo(aziendaModel.getIndirizzo())
@@ -66,33 +62,6 @@ public class AziendaDTO {
 		}).collect(Collectors.toList());
 	}
 
-=======
-		AziendaDTO result = AziendaDTO.builder().id(aziendaModel.getId()).ragioneSociale(aziendaModel.getRagioneSociale())
-				.partitaIva(aziendaModel.getPartitaIva()).indirizzo(aziendaModel.getIndirizzo()).commesse(CommessaDTO.createCommessaDTOListFromModelList(aziendaModel.getCommesse())).build();
 
-		return result;
-	}
 	
-	public static List<AziendaDTO> createAziendaDTOListFromModelList(List<Azienda> modelListInput) {
-		return modelListInput.stream().map(aziendaEntity -> {
-		AziendaDTO result = AziendaDTO.buildAziendaDTOFromModel(aziendaEntity);
-		return result;
-		}).collect(Collectors.toList());
-		}
-	
-	public Azienda buildAziendaModel() {
-		Azienda result = Azienda.builder().id(this.id).ragioneSociale(this.ragioneSociale).partitaIva(this.partitaIva)
-		.indirizzo(this.indirizzo).build();
-
-		return result;
-		}
-	
-	public static List<Azienda> createAziendaListFromDTOList(List<AziendaDTO> modelListInput) {
-		return modelListInput.stream().map(commessaDTOEntity -> {
-		Azienda result = commessaDTOEntity.buildAziendaModel();
-		return result;
-		}).collect(Collectors.toList());
-		}
-	
->>>>>>> Stashed changes
 }
