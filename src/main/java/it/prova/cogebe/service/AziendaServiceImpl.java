@@ -22,11 +22,13 @@ public class AziendaServiceImpl implements AziendaService {
 		return (List<Azienda>) repository.findAll();		
 	}
 
-	@Transactional
+
 	@Override
 	public Azienda caricaSingoloElemento(Long id) throws Exception {
 		return repository.findById(id).orElse(null);
 	}
+	
+	@Transactional
 	@Override
 	public Azienda aggiorna(Azienda aziendaInstance) throws Exception {
 		if (caricaSingoloElemento(aziendaInstance.getId()) != null) {
