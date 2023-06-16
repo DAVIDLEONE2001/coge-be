@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CogeBeApplication implements CommandLineRunner{
+public class CogeBeApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CogeBeApplication.class, args);
@@ -16,7 +16,7 @@ public class CogeBeApplication implements CommandLineRunner{
 
 		System.err.println("**********************************");
 		System.err.println("**********************************");
-		
+
 	}
 
 }
