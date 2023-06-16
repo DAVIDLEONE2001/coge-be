@@ -42,7 +42,7 @@ public class AttachmentDTO {
 		}).collect(Collectors.toList());
 	}
 	
-	public static List<Attachment> createCommessaListFromDTOList(List<AttachmentDTO> DTOListInput) {
+	public static List<Attachment> createAttachmentListFromDTOList(List<AttachmentDTO> DTOListInput) {
 		return DTOListInput.stream().map(attachmentDTOEntity -> {
 			Attachment result = attachmentDTOEntity.buildAttachmentModel();
 			return result;
