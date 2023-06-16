@@ -62,6 +62,4 @@ public class AziendaDTO {
 		}).collect(Collectors.toList());
 	}
 
-
-	
 }
