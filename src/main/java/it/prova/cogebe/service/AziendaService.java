@@ -10,7 +10,6 @@ public interface AziendaService {
 
 	public Azienda caricaSingoloElemento(Long id) throws Exception;
 
-
 	public Azienda aggiorna(Azienda aziendaInstance) throws Exception;
 
 	public Azienda inserisciNuovo(Azienda aziendaInstance) throws Exception;
