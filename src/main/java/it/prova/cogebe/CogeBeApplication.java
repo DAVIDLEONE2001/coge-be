@@ -50,7 +50,7 @@ public class CogeBeApplication implements CommandLineRunner {
 				.contentType("doc/txt").payload(payload).dataCreazione(LocalDate.now()).build();
 
 		Risorsa risorsa1 = Risorsa.builder().nome("David").cognome("Leone").codiceFiscale("LNEDVD01S04H501H")
-				.costoGiornaliero(50).dataIn(LocalDate.parse("2020-01-01")).email("ciao@gmail.com").build();
+				.costoGiornaliero(50).dataIn(LocalDate.parse("2020-01-01")).dataOut(LocalDate.now()).email("ciao@gmail.com").build();
 
 		risorsaService.inserisciNuovo(risorsa1);
 		attachmentService.inserisciNuovo(attachment1);

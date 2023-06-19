@@ -43,10 +43,10 @@ public class RisorsaDTO {
 				.codiceFiscale(risorsaModel.getCodiceFiscale()).email(risorsaModel.getEmail())
 				.costoGiornaliero(risorsaModel.getCostoGiornaliero()).build();
 		if (risorsaModel.getCommesse() != null) {
-			result.setCommesse(CommessaDTO.createCommessaDTOListFromModelList(risorsaModel.getCommesse()));
+//			result.setCommesse(CommessaDTO.createCommessaDTOListFromModelList(risorsaModel.getCommesse()));
 		}
 		if (risorsaModel.getRapportini() != null) {
-			result.setRapportini(RapportinoDTO.createRapportinoDTOListFromModelList(risorsaModel.getRapportini()));
+//			result.setRapportini(RapportinoDTO.createRapportinoDTOListFromModelList(risorsaModel.getRapportini()));
 		}
 		if (risorsaModel.getCv() != null) {
 			result.setCv(AttachmentDTO.buildAttachmentDTOFromModelSenzaRisorsa(risorsaModel.getCv()));
@@ -69,6 +69,16 @@ public class RisorsaDTO {
 			result.setRapportini(RapportinoDTO.createRapportinoDTOListFromModelList(risorsaModel.getRapportini()));
 		}
 
+		return result;
+	}
+	public static RisorsaDTO buildRisorsaDTOFromModelLazy(Risorsa risorsaModel) {
+		
+		RisorsaDTO result = RisorsaDTO.builder().id(risorsaModel.getId()).nome(risorsaModel.getNome())
+				.cognome(risorsaModel.getCognome()).dataIn(risorsaModel.getDataIn()).dataOut(risorsaModel.getDataOut())
+				.codiceFiscale(risorsaModel.getCodiceFiscale()).email(risorsaModel.getEmail())
+				.costoGiornaliero(risorsaModel.getCostoGiornaliero()).build();
+		
+		
 		return result;
 	}
 
