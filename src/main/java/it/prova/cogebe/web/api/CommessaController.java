@@ -29,6 +29,7 @@ public class CommessaController {
 	@Autowired
 	private CommessaService service;
 
+	@GetMapping
 	public List<CommessaDTO> listAll() throws Exception {
 		return service.listAll().stream().map(commessa -> CommessaDTO.buildCommessaDTOFromModel(commessa))
 				.collect(Collectors.toList());
@@ -41,13 +42,13 @@ public class CommessaController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CommessaDTO inserisciNuovoAtleta(@Valid @RequestBody CommessaDTO input) throws Exception {
+	public CommessaDTO inserisciNuovaCommessa(@Valid @RequestBody CommessaDTO input) throws Exception {
 
 		return CommessaDTO.buildCommessaDTOFromModel(service.inserisciNuovo(input.buildCommessaModel()));
 	}
 
 	@PutMapping("/{id}")
-	public CommessaDTO aggiornaAtleta(@Valid @RequestBody CommessaDTO input) throws Exception {
+	public CommessaDTO aggiornaCommessa(@Valid @RequestBody CommessaDTO input) throws Exception {
 		return CommessaDTO.buildCommessaDTOFromModel(service.aggiorna(input.buildCommessaModel()));
 	}
 

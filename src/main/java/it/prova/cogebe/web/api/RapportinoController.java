@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.cogebe.dto.RapportinoDTO;
+import it.prova.cogebe.model.Rapportino;
 import it.prova.cogebe.service.RapportinoService;
 
 @CrossOrigin
@@ -26,34 +27,45 @@ import it.prova.cogebe.service.RapportinoService;
 @RequestMapping("/api/rapportino")
 public class RapportinoController {
 
-	@Autowired
-	private RapportinoService service;
+	private final RapportinoService rapportinoService;
 
+	@Autowired
+	public RapportinoController(RapportinoService rapportinoService) {
+		this.rapportinoService = rapportinoService;
+	}
+
+	@GetMapping
 	public List<RapportinoDTO> listAll() throws Exception {
-		return service.listAll().stream().map(commessa -> RapportinoDTO.buildRapportinoDTOFromModel(commessa))
-				.collect(Collectors.toList());
+		List<Rapportino> rapportini = rapportinoService.listAll();
+		return rapportini.stream().map(RapportinoDTO::buildRapportinoDTOFromModel).collect(Collectors.toList());
 	}
 
 	@GetMapping("/{id}")
-	public RapportinoDTO caricaSingolo(@PathVariable(name = "id", required = true) Long id) throws Exception {
-		return RapportinoDTO.buildRapportinoDTOFromModel(service.caricaSingoloElemento(id));
+	public RapportinoDTO getRapportino(@PathVariable("id") Long id) throws Exception {
+		Rapportino rapportino = rapportinoService.caricaSingoloElemento(id);
+		return RapportinoDTO.buildRapportinoDTOFromModel(rapportino);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public RapportinoDTO inserisciNuovoAtleta(@Valid @RequestBody RapportinoDTO input) throws Exception {
-
-		return RapportinoDTO.buildRapportinoDTOFromModel(service.inserisciNuovo(input.buildRapportinoModel()));
+	public RapportinoDTO createRapportino(@Valid @RequestBody RapportinoDTO rapportinoDTO) throws Exception {
+		Rapportino rapportino = rapportinoDTO.buildRapportinoModel();
+		rapportino = rapportinoService.inserisciNuovo(rapportino);
+		return RapportinoDTO.buildRapportinoDTOFromModel(rapportino);
 	}
 
 	@PutMapping("/{id}")
-	public RapportinoDTO aggiornaAtleta(@Valid @RequestBody RapportinoDTO input) throws Exception {
-		return RapportinoDTO.buildRapportinoDTOFromModel(service.aggiorna(input.buildRapportinoModel()));
+	public RapportinoDTO updateRapportino(@PathVariable("id") Long id, @Valid @RequestBody RapportinoDTO rapportinoDTO)
+			throws Exception {
+		Rapportino rapportino = rapportinoDTO.buildRapportinoModel();
+		rapportino.setId(id);
+		rapportino = rapportinoService.aggiorna(rapportino);
+		return RapportinoDTO.buildRapportinoDTOFromModel(rapportino);
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void rimuovi(@PathVariable(name = "id", required = true) Long id) throws Exception {
-		service.rimuovi(id);
+	public void deleteRapportino(@PathVariable("id") Long id) throws Exception {
+		rapportinoService.rimuovi(id);
 	}
 }

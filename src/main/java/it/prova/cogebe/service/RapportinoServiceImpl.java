@@ -45,4 +45,10 @@ public class RapportinoServiceImpl implements RapportinoService {
 
 	}
 
+	@Override
+	public List<Rapportino> listByCommessaId(Long commessaId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

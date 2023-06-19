@@ -31,11 +31,9 @@ public class RapportinoDTO {
 	public static List<RapportinoDTO> createRapportinoDTOListFromModelList(List<Rapportino> modelListInput) {
 		return modelListInput.stream().map(RapportinoDTO::buildRapportinoDTOFromModel).collect(Collectors.toList());
 	}
-	
+
 	public static List<Rapportino> createRapportinoListFromDTOList(List<RapportinoDTO> modelListInput) {
-	    return modelListInput.stream()
-	            .map(rapportinoDTO -> rapportinoDTO.buildRapportinoModel())
-	            .collect(Collectors.toList());
+		return modelListInput.stream().map(RapportinoDTO::buildRapportinoModel).collect(Collectors.toList());
 	}
 
 	public Rapportino buildRapportinoModel() {

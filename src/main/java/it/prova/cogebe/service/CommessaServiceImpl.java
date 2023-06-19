@@ -43,4 +43,22 @@ public class CommessaServiceImpl implements CommessaService {
 	public void rimuovi(Long idRapportino) {
 		repository.deleteById(idRapportino);
 	}
+
+	@Override
+	public List<Commessa> getCommesseChiuseOrderByMargineDecrescente() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Commessa> getCommesseByAzienda(Long idAzienda) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double getMargineCommessa(Long idCommessa) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

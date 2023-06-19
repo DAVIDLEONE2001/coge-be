@@ -15,4 +15,7 @@ public interface RapportinoService {
 	public Rapportino inserisciNuovo(Rapportino rapportinoInstance);
 
 	public void rimuovi(Long idRapportino) throws Exception;
+
+	public List<Rapportino> listByCommessaId(Long commessaId);
+
 }

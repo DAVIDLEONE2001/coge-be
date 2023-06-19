@@ -19,11 +19,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 @Entity
 @Table(name = "commessa")
 public class Commessa {
@@ -32,14 +34,19 @@ public class Commessa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "descrizione")
+
+	@Column(name = "descrizione", length = 100)
 	private String descrizione;
-	@Column(name = "codice")
+
+	@Column(name = "codice", length = 100)
 	private String codice;
+
 	@Column(name = "datain")
 	private LocalDate dataIn;
+
 	@Column(name = "dataout")
 	private LocalDate dataOut;
+
 	@Column(name = "importo")
 	private Integer importo;
 
@@ -48,7 +55,6 @@ public class Commessa {
 	private Azienda azienda;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "commessa_risorsa", joinColumns = @JoinColumn(name = "commessa_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "risorsa_id", referencedColumnName = "ID"))
+	@JoinTable(name = "commessa_risorsa", joinColumns = @JoinColumn(name = "commessa_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "risorsa_id", referencedColumnName = "id"))
 	private List<Risorsa> risorse;
-
 }

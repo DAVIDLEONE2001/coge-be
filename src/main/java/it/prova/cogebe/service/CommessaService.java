@@ -6,13 +6,21 @@ import it.prova.cogebe.model.Commessa;
 
 public interface CommessaService {
 
-	public List<Commessa> listAll();
+	List<Commessa> listAll();
 
-	public Commessa caricaSingoloElemento(Long id);
+	Commessa caricaSingoloElemento(Long id);
 
-	public Commessa aggiorna(Commessa commessaInstance);
+	Commessa aggiorna(Commessa commessaInstance);
 
-	public Commessa inserisciNuovo(Commessa commessaInstance);
+	Commessa inserisciNuovo(Commessa commessaInstance);
 
-	public void rimuovi(Long idCommessa);
+	void rimuovi(Long idCommessa);
+
+	// Aggiungi i seguenti metodi
+
+	List<Commessa> getCommesseChiuseOrderByMargineDecrescente();
+
+	List<Commessa> getCommesseByAzienda(Long idAzienda);
+
+	double getMargineCommessa(Long idCommessa);
 }
