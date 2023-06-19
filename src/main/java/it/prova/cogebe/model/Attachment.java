@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -36,7 +37,7 @@ public class Attachment {
 	private String decrizione;
 	@Column(name = "datacreazione")
 	private LocalDate dataCreazione;
-	@Column(name = "payload")
+	@Lob
 	private byte[] payload;
 	
 	@ManyToOne(fetch = FetchType.LAZY )

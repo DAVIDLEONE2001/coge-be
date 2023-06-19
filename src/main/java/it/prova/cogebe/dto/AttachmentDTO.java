@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import it.prova.cogebe.model.Attachment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
 public class AttachmentDTO {
 
 	private Long id;
@@ -31,7 +35,15 @@ public class AttachmentDTO {
 		AttachmentDTO result = AttachmentDTO.builder().id(AttachmentModel.getId())
 				.fileName(AttachmentModel.getFileName()).contentType(AttachmentModel.getContentType())
 				.decrizione(AttachmentModel.getDecrizione()).dataCreazione(AttachmentModel.getDataCreazione())
-				.payload(AttachmentModel.getPayload()).risorsa(RisorsaDTO.buildRisorsaDTOFromModel(AttachmentModel.getRisorsa())).build();
+				.payload(AttachmentModel.getPayload()).risorsa(RisorsaDTO.buildRisorsaDTOFromModelSenzaCV(AttachmentModel.getRisorsa())).build();
+		return result;
+	}
+	public static AttachmentDTO buildAttachmentDTOFromModelSenzaRisorsa(Attachment AttachmentModel) {
+		
+		AttachmentDTO result = AttachmentDTO.builder().id(AttachmentModel.getId())
+				.fileName(AttachmentModel.getFileName()).contentType(AttachmentModel.getContentType())
+				.decrizione(AttachmentModel.getDecrizione()).dataCreazione(AttachmentModel.getDataCreazione())
+				.payload(AttachmentModel.getPayload()).build();
 		return result;
 	}
 
