@@ -45,13 +45,10 @@ public class RapportinoServiceImpl implements RapportinoService {
 
 	}
 
-<<<<<<< Updated upstream
 	@Override
 	public List<Rapportino> listByCommessaId(Long commessaId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-=======
->>>>>>> Stashed changes
 }

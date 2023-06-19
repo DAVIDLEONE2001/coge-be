@@ -6,7 +6,6 @@ import it.prova.cogebe.model.Commessa;
 
 public interface CommessaService {
 
-<<<<<<< Updated upstream
 	List<Commessa> listAll();
 
 	Commessa caricaSingoloElemento(Long id);
@@ -24,15 +23,5 @@ public interface CommessaService {
 	List<Commessa> getCommesseByAzienda(Long idAzienda);
 
 	double getMargineCommessa(Long idCommessa);
-=======
-	public List<Commessa> listAll();
 
-	public Commessa caricaSingoloElemento(Long id);
-
-	public Commessa aggiorna(Commessa commessaInstance);
-
-	public Commessa inserisciNuovo(Commessa commessaInstance);
-
-	public void rimuovi(Long idCommessa);
->>>>>>> Stashed changes
 }
