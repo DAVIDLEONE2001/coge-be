@@ -15,7 +15,10 @@ public interface RapportinoService {
 	public Rapportino inserisciNuovo(Rapportino rapportinoInstance);
 
 	public void rimuovi(Long idRapportino) throws Exception;
+<<<<<<< Updated upstream
 
 	public List<Rapportino> listByCommessaId(Long commessaId);
 
+=======
+>>>>>>> Stashed changes
 }

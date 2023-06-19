@@ -42,6 +42,7 @@ public class CommessaServiceImpl implements CommessaService {
 	@Override
 	public void rimuovi(Long idRapportino) {
 		repository.deleteById(idRapportino);
+<<<<<<< Updated upstream
 	}
 
 	@Override
@@ -60,5 +61,7 @@ public class CommessaServiceImpl implements CommessaService {
 	public double getMargineCommessa(Long idCommessa) {
 		// TODO Auto-generated method stub
 		return 0;
+=======
+>>>>>>> Stashed changes
 	}
 }
