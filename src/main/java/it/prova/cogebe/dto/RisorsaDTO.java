@@ -49,7 +49,7 @@ public class RisorsaDTO {
 //			result.setRapportini(RapportinoDTO.createRapportinoDTOListFromModelList(risorsaModel.getRapportini()));
 		}
 		if (risorsaModel.getCv() != null) {
-			result.setCv(AttachmentDTO.buildAttachmentDTOFromModelSenzaRisorsa(risorsaModel.getCv()));
+			result.setCv(AttachmentDTO.buildAttachmentDTOFromModel(risorsaModel.getCv()));
 		}
 
 		return result;

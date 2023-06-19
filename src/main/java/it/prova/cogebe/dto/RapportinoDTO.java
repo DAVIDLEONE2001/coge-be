@@ -3,9 +3,7 @@ package it.prova.cogebe.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import it.prova.cogebe.model.Commessa;
 import it.prova.cogebe.model.Rapportino;
-import it.prova.cogebe.model.Risorsa;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,12 +18,25 @@ public class RapportinoDTO {
 	private Long id;
 	private Integer numeroGiorni;
 
-	private Risorsa risorsa;
-	private Commessa commessa;
+	private RisorsaDTO risorsa;
+	private CommessaDTO commessa;
 
 	public static RapportinoDTO buildRapportinoDTOFromModel(Rapportino rapportinoModel) {
+		if (rapportinoModel == null) {
+			return null;
+		}
+
 		return RapportinoDTO.builder().id(rapportinoModel.getId()).numeroGiorni(rapportinoModel.getNumeroGiorni())
-				.risorsa(rapportinoModel.getRisorsa()).commessa(rapportinoModel.getCommessa()).build();
+				.build();
+	}
+	
+	public static RapportinoDTO buildRapportinoDTOFromModelLazy(Rapportino rapportinoModel) {
+		if (rapportinoModel == null) {
+			return null;
+		}
+
+		return RapportinoDTO.builder().id(rapportinoModel.getId()).numeroGiorni(rapportinoModel.getNumeroGiorni())
+				.build();
 	}
 
 	public static List<RapportinoDTO> createRapportinoDTOListFromModelList(List<Rapportino> modelListInput) {
@@ -37,7 +48,8 @@ public class RapportinoDTO {
 	}
 
 	public Rapportino buildRapportinoModel() {
-		return Rapportino.builder().id(this.id).numeroGiorni(this.numeroGiorni).risorsa(this.risorsa)
-				.commessa(this.commessa).build();
+		return Rapportino.builder().id(this.id).numeroGiorni(this.numeroGiorni)
+				.risorsa(this.risorsa != null ? this.risorsa.buildRisorsaModel() : null)
+				.commessa(this.commessa != null ? this.commessa.buildCommessaModel() : null).build();
 	}
 }
