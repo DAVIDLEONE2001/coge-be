@@ -15,6 +15,7 @@ import it.prova.cogebe.model.Commessa;
 import it.prova.cogebe.model.Rapportino;
 import it.prova.cogebe.model.Risorsa;
 import it.prova.cogebe.service.AttachmentService;
+import it.prova.cogebe.service.AziendaService;
 import it.prova.cogebe.service.CommessaService;
 import it.prova.cogebe.service.RapportinoService;
 import it.prova.cogebe.service.RisorsaService;
@@ -29,7 +30,9 @@ public class CogeBeApplication implements CommandLineRunner {
 	@Autowired
 	private CommessaService commessaService;
 	@Autowired
-	private RapportinoService rapportinoService;
+	private RapportinoService rapportinoService;	
+	@Autowired
+	private AziendaService aziendaService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CogeBeApplication.class, args);
@@ -78,9 +81,11 @@ public class CogeBeApplication implements CommandLineRunner {
 		
 		Azienda azienda1 = Azienda.builder().ragioneSociale("Azienda 4Piano").partitaIva("PPIVA")
 				.indirizzo("Via Mosca 52").build();
-		
+		aziendaService.inserisciNuovo(azienda1);
 		Azienda azienda2 = Azienda.builder().ragioneSociale("Azienda 7Piano").partitaIva("CCIVA")
 				.indirizzo("Via Mosca 52").build();
+		aziendaService.inserisciNuovo(azienda2);
+		
 		
 		// -----------------------------------------------------------------------------------------
 		
