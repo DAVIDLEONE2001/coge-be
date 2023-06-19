@@ -71,14 +71,14 @@ public class RisorsaDTO {
 
 		return result;
 	}
+
 	public static RisorsaDTO buildRisorsaDTOFromModelLazy(Risorsa risorsaModel) {
-		
+
 		RisorsaDTO result = RisorsaDTO.builder().id(risorsaModel.getId()).nome(risorsaModel.getNome())
 				.cognome(risorsaModel.getCognome()).dataIn(risorsaModel.getDataIn()).dataOut(risorsaModel.getDataOut())
 				.codiceFiscale(risorsaModel.getCodiceFiscale()).email(risorsaModel.getEmail())
 				.costoGiornaliero(risorsaModel.getCostoGiornaliero()).build();
-		
-		
+
 		return result;
 	}
 
@@ -105,7 +105,7 @@ public class RisorsaDTO {
 			result.setCv(this.cv.buildAttachmentModel());
 		}
 		if (this.commesse != null) {
-			result.setCommesse(CommessaDTO.createCommessaListFromDTOList(this.commesse));
+			result.setCommesse(CommessaDTO.createCommessaListFromDTOList(this.commesse, false));
 		}
 		if (this.rapportini != null) {
 			result.setRapportini(RapportinoDTO.createRapportinoListFromDTOList(this.rapportini));

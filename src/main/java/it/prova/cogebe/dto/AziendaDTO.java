@@ -80,7 +80,7 @@ public class AziendaDTO {
 		Azienda result = Azienda.builder().id(this.id).ragioneSociale(this.ragioneSociale).partitaIva(this.partitaIva)
 				.indirizzo(this.indirizzo).build();
 		if (this.commesse != null) {
-			result.setCommesse(CommessaDTO.createCommessaListFromDTOList(this.commesse));
+			result.setCommesse(CommessaDTO.createCommessaListFromDTOList(this.commesse,false));
 		}
 		return result;
 
