@@ -108,8 +108,6 @@ public class CogeBeApplication implements CommandLineRunner {
 
 		System.err.println("**********************************");
 		
-		
-
 	}
 
 }

@@ -27,34 +27,111 @@ public class AziendaDTO {
 
 	@NotBlank(message = "{partitaIva.notblank}")
 	private String indirizzo;
-
+	
 	List<CommessaDTO> commesse;
 
 	public static AziendaDTO buildAziendaDTOFromModel(Azienda aziendaModel) {
 
 		AziendaDTO result = AziendaDTO.builder().id(aziendaModel.getId())
 				.ragioneSociale(aziendaModel.getRagioneSociale()).partitaIva(aziendaModel.getPartitaIva())
-				.indirizzo(aziendaModel.getIndirizzo())
-				.commesse(CommessaDTO.createCommessaDTOListFromModelList(aziendaModel.getCommesse())).build();
-
+				.indirizzo(aziendaModel.getIndirizzo()).build();
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+		if (aziendaModel.getCommesse() != null) {
+			result.setCommesse(CommessaDTO.createCommessaDTOListFromModelList(aziendaModel.getCommesse()));
+		}
 		return result;
 	}
 
+	public static AziendaDTO buildAziendaDTOFromModelLazy(Azienda aziendaModel) {
+
+		AziendaDTO result = AziendaDTO.builder().id(aziendaModel.getId())
+				.ragioneSociale(aziendaModel.getRagioneSociale()).partitaIva(aziendaModel.getPartitaIva())
+				.indirizzo(aziendaModel.getIndirizzo()).build();
+		return result;
+	}
+
+=======
+//				.commesse(CommessaDTO.createCommessaDTOListFromModelList(aziendaModel.getCommesse())).build();
+//		if (aziendaModel.getCommesse() != null) {
+//			result.setCommesse(CommessaDTO.createCommessaDTOListFromModelList(aziendaModel.getCommesse()));
+//		}
+		return result;
+	}
+
+>>>>>>> Stashed changes
+=======
+//				.commesse(CommessaDTO.createCommessaDTOListFromModelList(aziendaModel.getCommesse())).build();
+//		if (aziendaModel.getCommesse() != null) {
+//			result.setCommesse(CommessaDTO.createCommessaDTOListFromModelList(aziendaModel.getCommesse()));
+//		}
+		return result;
+	}
+
+>>>>>>> Stashed changes
+	public static AziendaDTO buildAziendaDTOFromModelSenzaCommesse(Azienda aziendaModel) {
+
+		AziendaDTO result = AziendaDTO.builder().id(aziendaModel.getId())
+				.ragioneSociale(aziendaModel.getRagioneSociale()).partitaIva(aziendaModel.getPartitaIva())
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+				.indirizzo(aziendaModel.getIndirizzo()).build();
+=======
+				.indirizzo(aziendaModel.getIndirizzo())
+				.build();
+>>>>>>> Stashed changes
+=======
+				.indirizzo(aziendaModel.getIndirizzo())
+				.build();
+>>>>>>> Stashed changes
+		if (aziendaModel.getCommesse() != null) {
+			result.setCommesse(CommessaDTO.createCommessaDTOListFromModelList(aziendaModel.getCommesse()));
+		}
+		return result;
+	}
+
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+	public static List<AziendaDTO> createAziendaDTOListFromModelList(List<Azienda> modelListInput, boolean eager) {
+=======
+=======
+>>>>>>> Stashed changes
+	
 	public static List<AziendaDTO> createAziendaDTOListFromModelList(List<Azienda> modelListInput) {
+>>>>>>> Stashed changes
 		return modelListInput.stream().map(aziendaEntity -> {
-			AziendaDTO result = AziendaDTO.buildAziendaDTOFromModel(aziendaEntity);
-			return result;
+			if (eager) {
+				AziendaDTO result = AziendaDTO.buildAziendaDTOFromModel(aziendaEntity);
+				return result;
+
+			} else {
+				AziendaDTO result = AziendaDTO.buildAziendaDTOFromModelLazy(aziendaEntity);
+				return result;
+				}
+
+			
 		}).collect(Collectors.toList());
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+
+=======
+		
+>>>>>>> Stashed changes
+=======
+		
+>>>>>>> Stashed changes
 	}
 
 	public Azienda buildAziendaModel() {
 		Azienda result = Azienda.builder().id(this.id).ragioneSociale(this.ragioneSociale).partitaIva(this.partitaIva)
 				.indirizzo(this.indirizzo).build();
-
+		if (this.commesse != null) {
+			result.setCommesse(CommessaDTO.createCommessaListFromDTOList(this.commesse));
+		}
 		return result;
-
+		
 	}
-
+	
 	public static List<Azienda> createAziendaListFromDTOList(List<AziendaDTO> modelListInput) {
 		return modelListInput.stream().map(commessaDTOEntity -> {
 			Azienda result = commessaDTOEntity.buildAziendaModel();
