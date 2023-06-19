@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import it.prova.cogebe.model.Rapportino;
 import it.prova.cogebe.model.Risorsa;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,25 +41,34 @@ public class RisorsaDTO {
 		RisorsaDTO result = RisorsaDTO.builder().id(risorsaModel.getId()).nome(risorsaModel.getNome())
 				.cognome(risorsaModel.getCognome()).dataIn(risorsaModel.getDataIn()).dataOut(risorsaModel.getDataOut())
 				.codiceFiscale(risorsaModel.getCodiceFiscale()).email(risorsaModel.getEmail())
-				.costoGiornaliero(risorsaModel.getCostoGiornaliero())
-				.cv(AttachmentDTO.buildAttachmentDTOFromModelSenzaRisorsa(risorsaModel.getCv())).build();
-		if (!risorsaModel.getCommesse().isEmpty()){
+				.costoGiornaliero(risorsaModel.getCostoGiornaliero()).build();
+		if (risorsaModel.getCommesse() != null) {
 			result.setCommesse(CommessaDTO.createCommessaDTOListFromModelList(risorsaModel.getCommesse()));
 		}
-		
+		if (risorsaModel.getRapportini() != null) {
+			result.setRapportini(RapportinoDTO.createRapportinoDTOListFromModelList(risorsaModel.getRapportini()));
+		}
+		if (risorsaModel.getCv() != null) {
+			result.setCv(AttachmentDTO.buildAttachmentDTOFromModelSenzaRisorsa(risorsaModel.getCv()));
+		}
+
 		return result;
 	}
+
 	public static RisorsaDTO buildRisorsaDTOFromModelSenzaCV(Risorsa risorsaModel) {
-		
+
 		RisorsaDTO result = RisorsaDTO.builder().id(risorsaModel.getId()).nome(risorsaModel.getNome())
 				.cognome(risorsaModel.getCognome()).dataIn(risorsaModel.getDataIn()).dataOut(risorsaModel.getDataOut())
 				.codiceFiscale(risorsaModel.getCodiceFiscale()).email(risorsaModel.getEmail())
 				.costoGiornaliero(risorsaModel.getCostoGiornaliero()).build();
-				
-		if (!risorsaModel.getCommesse().isEmpty()){
+
+		if (risorsaModel.getCommesse() != null) {
 			result.setCommesse(CommessaDTO.createCommessaDTOListFromModelList(risorsaModel.getCommesse()));
 		}
-		
+		if (risorsaModel.getRapportini() != null) {
+			result.setRapportini(RapportinoDTO.createRapportinoDTOListFromModelList(risorsaModel.getRapportini()));
+		}
+
 		return result;
 	}
 
@@ -70,7 +78,7 @@ public class RisorsaDTO {
 			return result;
 		}).collect(Collectors.toList());
 	}
-	
+
 	public static List<Risorsa> createRisorsaListFromDTOList(List<RisorsaDTO> modelListInput) {
 		return modelListInput.stream().map(risorsaDTOEntity -> {
 			Risorsa result = risorsaDTOEntity.buildRisorsaModel();
@@ -81,8 +89,17 @@ public class RisorsaDTO {
 	public Risorsa buildRisorsaModel() {
 		Risorsa result = Risorsa.builder().id(this.id).nome(this.nome).cognome(this.cognome).dataIn(this.dataIn)
 				.dataOut(this.dataOut).codiceFiscale(this.codiceFiscale).email(this.email)
-				.costoGiornaliero(this.costoGiornaliero).cv(this.cv.buildAttachmentModel())
-				.commesse(CommessaDTO.createCommessaListFromDTOList(this.commesse)).build();
+				.costoGiornaliero(this.costoGiornaliero).build();
+
+		if (this.cv != null) {
+			result.setCv(this.cv.buildAttachmentModel());
+		}
+		if (this.commesse != null) {
+			result.setCommesse(CommessaDTO.createCommessaListFromDTOList(this.commesse));
+		}
+		if (this.rapportini != null) {
+			result.setRapportini(RapportinoDTO.createRapportinoListFromDTOList(this.rapportini));
+		}
 
 		return result;
 	}
