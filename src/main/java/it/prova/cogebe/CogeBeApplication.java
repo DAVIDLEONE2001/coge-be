@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import it.prova.cogebe.model.Attachment;
+import it.prova.cogebe.model.Azienda;
 import it.prova.cogebe.model.Commessa;
 import it.prova.cogebe.model.Rapportino;
 import it.prova.cogebe.model.Risorsa;
@@ -71,14 +72,27 @@ public class CogeBeApplication implements CommandLineRunner {
 		risorsaService.aggiorna(risorsa2);
 		attachmentService.aggiorna(attachment2);
 
+		
+		//Creazione Azienda
+		
+		
+		Azienda azienda1 = Azienda.builder().ragioneSociale("Azienda 4Piano").partitaIva("PPIVA")
+				.indirizzo("Via Mosca 52").build();
+		
+		Azienda azienda2 = Azienda.builder().ragioneSociale("Azienda 7Piano").partitaIva("CCIVA")
+				.indirizzo("Via Mosca 52").build();
+		
+		// -----------------------------------------------------------------------------------------
+		
+		
 		Commessa commessa = Commessa.builder().descrizione("Descrizione commessa di prova").codice("COD-001")
 				.dataIn(LocalDate.parse("2023-06-15")).dataOut(LocalDate.parse("2023-06-30")).importo(1000)
-				.azienda(null).risorse(Arrays.asList(risorsa1)).build();
+				.azienda(azienda1).risorse(Arrays.asList(risorsa1)).build();
 		commessaService.inserisciNuovo(commessa);
 
 		Commessa commessa2 = Commessa.builder().descrizione("Descrizione altra commessa di prova").codice("COD-002")
 				.dataIn(LocalDate.parse("2023-07-01")).dataOut(LocalDate.parse("2023-07-15")).importo(1500)
-				.azienda(null).risorse(Arrays.asList(risorsa2)).build();
+				.azienda(azienda2).risorse(Arrays.asList(risorsa2)).build();
 		commessaService.inserisciNuovo(commessa2);
 
 		Rapportino rapportino = Rapportino.builder().numeroGiorni(5).risorsa(risorsa1).commessa(commessa).build();
@@ -88,6 +102,8 @@ public class CogeBeApplication implements CommandLineRunner {
 		rapportinoService.inserisciNuovo(rapportino2);
 
 		System.err.println("**********************************");
+		
+		
 
 	}
 
