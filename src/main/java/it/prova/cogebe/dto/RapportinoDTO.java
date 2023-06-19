@@ -3,6 +3,8 @@ package it.prova.cogebe.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import it.prova.cogebe.model.Rapportino;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RapportinoDTO {
 
 	private Long id;
@@ -29,7 +32,7 @@ public class RapportinoDTO {
 		return RapportinoDTO.builder().id(rapportinoModel.getId()).numeroGiorni(rapportinoModel.getNumeroGiorni())
 				.build();
 	}
-	
+
 	public static RapportinoDTO buildRapportinoDTOFromModelLazy(Rapportino rapportinoModel) {
 		if (rapportinoModel == null) {
 			return null;
@@ -40,10 +43,10 @@ public class RapportinoDTO {
 	}
 
 	public static List<RapportinoDTO> createRapportinoDTOListFromModelList(List<Rapportino> modelListInput) {
-		return modelListInput.stream().map(RapportinoDTO::buildRapportinoDTOFromModel).collect(Collectors.toList());
+		return modelListInput.stream().map(RapportinoDTO::buildRapportinoDTOFromModelLazy).collect(Collectors.toList());
 	}
 
-	public static List<Rapportino> createRapportinoListFromDTOList(List<RapportinoDTO> modelListInput) {
+	public static List<Rapportino> createRapportinoListFromDTOList(List<RapportinoDTO> modelListInput, boolean eager) {
 		return modelListInput.stream().map(RapportinoDTO::buildRapportinoModel).collect(Collectors.toList());
 	}
 

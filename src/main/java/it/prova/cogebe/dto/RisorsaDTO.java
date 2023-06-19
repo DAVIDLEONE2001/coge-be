@@ -108,7 +108,7 @@ public class RisorsaDTO {
 			result.setCommesse(CommessaDTO.createCommessaListFromDTOList(this.commesse, false));
 		}
 		if (this.rapportini != null) {
-			result.setRapportini(RapportinoDTO.createRapportinoListFromDTOList(this.rapportini));
+			result.setRapportini(RapportinoDTO.createRapportinoListFromDTOList(this.rapportini, false));
 		}
 
 		return result;

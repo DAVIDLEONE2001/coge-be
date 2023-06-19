@@ -48,7 +48,7 @@ public class CommessaDTO {
 	}
 
 	public static List<CommessaDTO> createCommessaDTOListFromModelList(List<Commessa> modelListInput) {
-		return modelListInput.stream().map(CommessaDTO::buildCommessaDTOFromModel).collect(Collectors.toList());
+		return modelListInput.stream().map(CommessaDTO::buildCommessaDTOFromModelLazy).collect(Collectors.toList());
 	}
 
 	public static List<Commessa> createCommessaListFromDTOList(List<CommessaDTO> modelListInput, boolean eager) {
