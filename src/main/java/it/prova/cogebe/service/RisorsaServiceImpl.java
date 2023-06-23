@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.cogebe.model.Risorsa;
+import it.prova.cogebe.repository.AttachmentRepository;
 import it.prova.cogebe.repository.RisorsaRepository;
 
 @Service
@@ -15,6 +16,8 @@ public class RisorsaServiceImpl implements RisorsaService {
 
 	@Autowired
 	private RisorsaRepository repository;
+	@Autowired
+	private AttachmentRepository attachmentRepository;
 
 	@Override
 	public List<Risorsa> listAll() {
@@ -35,6 +38,10 @@ public class RisorsaServiceImpl implements RisorsaService {
 	@Override
 	@Transactional
 	public Risorsa inserisciNuovo(Risorsa risorsaInstance) {
+		if(risorsaInstance.getCv()!=null) {
+			risorsaInstance.getCv().setRisorsa(risorsaInstance);
+			attachmentRepository.save(risorsaInstance.getCv());
+			}
 		return repository.save(risorsaInstance);
 	}
 

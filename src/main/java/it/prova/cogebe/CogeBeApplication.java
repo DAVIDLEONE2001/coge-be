@@ -50,7 +50,7 @@ public class CogeBeApplication implements CommandLineRunner {
 	    String stringTooLong = IOUtils.toString(fis, "UTF-8");
 		byte[] payload = Base64.getDecoder().decode(stringTooLong);
 
-		Attachment attachment1 = Attachment.builder().decrizione("cv di david").fileName("CV_Leone")
+		Attachment attachment1 = Attachment.builder().descrizione("cv di david").fileName("CV_Leone")
 				.contentType("doc/txt").payload(payload).dataCreazione(LocalDate.now()).build();
 
 		Risorsa risorsa1 = Risorsa.builder().nome("David").cognome("Leone").codiceFiscale("LNEDVD01S04H501H")
@@ -69,7 +69,7 @@ public class CogeBeApplication implements CommandLineRunner {
 		byte[] payload2 = Base64.getDecoder().decode(stringTooLong2);
 		
 		
-		Attachment attachment2 = Attachment.builder().decrizione("cv di cristin").fileName("CV_Cristan")
+		Attachment attachment2 = Attachment.builder().descrizione("cv di cristin").fileName("CV_Cristan")
 				.contentType("doc/txt").payload(payload2).dataCreazione(LocalDate.now()).build();
 
 		Risorsa risorsa2 = Risorsa.builder().nome("Cristian").cognome("Piarulli").codiceFiscale("PRLCST97A25H501R")

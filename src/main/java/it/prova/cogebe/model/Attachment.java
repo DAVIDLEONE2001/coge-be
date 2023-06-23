@@ -33,8 +33,8 @@ public class Attachment {
 	private String fileName;
 	@Column(name = "contenttype")
 	private String contentType;
-	@Column(name = "decrizione")
-	private String decrizione;
+	@Column(name = "descrizione")
+	private String descrizione;
 	@Column(name = "datacreazione")
 	private LocalDate dataCreazione;
 	@Lob

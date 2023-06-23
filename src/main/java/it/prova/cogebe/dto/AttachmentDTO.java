@@ -23,7 +23,7 @@ public class AttachmentDTO {
 	private Long id;
 	private String fileName;
 	private String contentType;
-	private String decrizione;
+	private String descrizione;
 	private LocalDate dataCreazione;
 	private byte[] payload;
 	
@@ -34,15 +34,15 @@ public class AttachmentDTO {
 
 		AttachmentDTO result = AttachmentDTO.builder().id(AttachmentModel.getId())
 				.fileName(AttachmentModel.getFileName()).contentType(AttachmentModel.getContentType())
-				.decrizione(AttachmentModel.getDecrizione()).dataCreazione(AttachmentModel.getDataCreazione())
-				.payload(AttachmentModel.getPayload()).risorsa(RisorsaDTO.buildRisorsaDTOFromModelSenzaCV(AttachmentModel.getRisorsa())).build();
+				.descrizione(AttachmentModel.getDescrizione()).dataCreazione(AttachmentModel.getDataCreazione())
+				.payload(AttachmentModel.getPayload()).build();
 		return result;
 	}
 	public static AttachmentDTO buildAttachmentDTOFromModelSenzaRisorsa(Attachment AttachmentModel) {
 		
 		AttachmentDTO result = AttachmentDTO.builder().id(AttachmentModel.getId())
 				.fileName(AttachmentModel.getFileName()).contentType(AttachmentModel.getContentType())
-				.decrizione(AttachmentModel.getDecrizione()).dataCreazione(AttachmentModel.getDataCreazione())
+				.descrizione(AttachmentModel.getDescrizione()).dataCreazione(AttachmentModel.getDataCreazione())
 				.payload(AttachmentModel.getPayload()).build();
 		return result;
 	}
@@ -63,7 +63,7 @@ public class AttachmentDTO {
 
 	public Attachment buildAttachmentModel() {
 		Attachment result = Attachment.builder().id(this.id).fileName(this.fileName).contentType(this.contentType)
-				.decrizione(this.decrizione).dataCreazione(this.dataCreazione).payload(this.payload).risorsa(this.risorsa.buildRisorsaModel()).build();
+				.descrizione(this.descrizione).dataCreazione(this.dataCreazione).payload(this.payload).build();
 
 		return result;
 	}
