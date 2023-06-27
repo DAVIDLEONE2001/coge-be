@@ -51,7 +51,7 @@ public class CogeBeApplication implements CommandLineRunner {
 		byte[] payload = Base64.getDecoder().decode(stringTooLong);
 
 		Attachment attachment1 = Attachment.builder().descrizione("cv di david").fileName("CV_Leone")
-				.contentType("doc/txt").payload(payload).dataCreazione(LocalDate.now()).build();
+				.contentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document").payload(payload).dataCreazione(LocalDate.now()).build();
 
 		Risorsa risorsa1 = Risorsa.builder().nome("David").cognome("Leone").codiceFiscale("LNEDVD01S04H501H")
 				.costoGiornaliero(50).dataIn(LocalDate.parse("2020-01-01")).dataOut(LocalDate.now()).email("ciao@gmail.com").build();
@@ -70,7 +70,7 @@ public class CogeBeApplication implements CommandLineRunner {
 		
 		
 		Attachment attachment2 = Attachment.builder().descrizione("cv di cristin").fileName("CV_Cristan")
-				.contentType("doc/txt").payload(payload2).dataCreazione(LocalDate.now()).build();
+				.contentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document").payload(payload2).dataCreazione(LocalDate.now()).build();
 
 		Risorsa risorsa2 = Risorsa.builder().nome("Cristian").cognome("Piarulli").codiceFiscale("PRLCST97A25H501R")
 				.costoGiornaliero(50).dataIn(LocalDate.parse("2020-01-01")).email("ciao2@gmail.com").build();

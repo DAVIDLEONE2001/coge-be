@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.cogebe.dto.RisorsaDTO;
+import it.prova.cogebe.dto.RisorsaDTOInsert;
 import it.prova.cogebe.model.Risorsa;
 import it.prova.cogebe.service.RisorsaService;
 
@@ -63,7 +64,7 @@ public class RisorsaController {
 	}
 
 	@PutMapping("/{id}")
-	public RisorsaDTO update(@Valid @RequestBody RisorsaDTO RisorsaInput, @PathVariable(required = true) Long id) {
+	public RisorsaDTO update(@Valid @RequestBody RisorsaDTOInsert RisorsaInput, @PathVariable(required = true) Long id) {
 		Risorsa Risorsa = risorsaService.caricaSingoloElemento(id);
 
 		if (Risorsa == null)
