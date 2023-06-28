@@ -17,5 +17,7 @@ public interface RisorsaService {
 	public Risorsa inserisciNuovo(Risorsa risorsaInstance);
 
 	public void rimuovi(Long idRisorsa);
-	
+
+	public void collegaRisorsaECommessa(Long idRisorsa, Long idCommessa);
+
 }

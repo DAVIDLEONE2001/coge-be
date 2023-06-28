@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Base64;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -47,7 +48,8 @@ public class CogeBeApplication implements CommandLineRunner {
 		System.err.println("**********************************");
 
 		FileInputStream fis = new FileInputStream("src/main/resources/stringtoolong.txt");
-	    String stringTooLong = IOUtils.toString(fis, "UTF-8");
+		String stringTooLong = IOUtils.toString(fis,Charsets.UTF_8);
+	    //String stringTooLong = IOUtils.toString(fis, "UTF-8");
 		byte[] payload = Base64.getDecoder().decode(stringTooLong);
 
 		Attachment attachment1 = Attachment.builder().descrizione("cv di david").fileName("CV_Leone")

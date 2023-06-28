@@ -49,13 +49,13 @@ public class RisorsaServiceImpl implements RisorsaService {
 		}
 
 		if (risorsaInstance.getCommesse() != null) {
+			repository.deleteAllCommessaRisorsaByRisorsaId(risorsaInstance.getId());
 			if (!risorsaInstance.getCommesse().isEmpty()) {
+				
 
-				commessaRepository.findAllById(
-						risorsaInstance.getCommesse().stream().map(i -> i.getId()).collect(Collectors.toList())).forEach(i->{
-							i.getRisorse().add(risorsaInstance);
-							commessaRepository.save(i);
-						});
+				risorsaInstance.getCommesse().stream().forEach(i-> {
+					repository.linkRisorsaToCommessa(risorsaInstance.getId(), i.getId());
+				});
 			}
 		}
 		
@@ -80,6 +80,13 @@ public class RisorsaServiceImpl implements RisorsaService {
 			attachmentRepository.delete(risorsaInstance.getCv());
 		}
 		repository.deleteById(idRisorsa);
+	}
+
+	@Override
+	public void collegaRisorsaECommessa(Long idRisorsa, Long idCommessa) {
+
+		repository.linkRisorsaToCommessa(idRisorsa, idCommessa);
+		
 	}
 
 }
