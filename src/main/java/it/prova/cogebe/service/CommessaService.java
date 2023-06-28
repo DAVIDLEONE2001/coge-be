@@ -2,26 +2,23 @@ package it.prova.cogebe.service;
 
 import java.util.List;
 
+import it.prova.cogebe.dto.ICommessaMargineDTO;
 import it.prova.cogebe.model.Commessa;
 
 public interface CommessaService {
 
-	List<Commessa> listAll();
+	public List<Commessa> listAll();
 
-	Commessa caricaSingoloElemento(Long id);
+	public Commessa caricaSingoloElemento(Long id);
 
-	Commessa aggiorna(Commessa commessaInstance);
+	public Commessa inserisciNuovo(Commessa commessaInstance);
 
-	Commessa inserisciNuovo(Commessa commessaInstance);
+	public Commessa aggiorna(Commessa commessaInstance);
 
-	void rimuovi(Long idCommessa);
+	public Commessa caricaSingoloEager(Long id);
 
-	// Aggiungi i seguenti metodi
+	public void rimuovi(Long idToDelete);
 
-	List<Commessa> getCommesseChiuseOrderByMargineDecrescente();
-
-	List<Commessa> getCommesseByAzienda(Long idAzienda);
-
-	double getMargineCommessa(Long idCommessa);
+	public List<ICommessaMargineDTO> commesseChiuseConMargineDecrescente();
 
 }

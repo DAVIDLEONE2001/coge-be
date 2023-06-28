@@ -1,6 +1,7 @@
 package it.prova.cogebe.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,13 +20,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 @Entity
 @Table(name = "commessa")
 public class Commessa {
@@ -34,19 +33,14 @@ public class Commessa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-
-	@Column(name = "descrizione", length = 100)
+	@Column(name = "descrizione")
 	private String descrizione;
-
-	@Column(name = "codice", length = 100)
+	@Column(name = "codice")
 	private String codice;
-
-	@Column(name = "datain")
+	@Column(name = "data_in")
 	private LocalDate dataIn;
-
-	@Column(name = "dataout")
+	@Column(name = "data_out")
 	private LocalDate dataOut;
-
 	@Column(name = "importo")
 	private Integer importo;
 
@@ -54,7 +48,9 @@ public class Commessa {
 	@JoinColumn(name = "azienda_id", nullable = false)
 	private Azienda azienda;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "commessa_risorsa", joinColumns = @JoinColumn(name = "commessa_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "risorsa_id", referencedColumnName = "id"))
-	private List<Risorsa> risorse;
+	@ManyToMany
+	@Builder.Default
+	@JoinTable(name = "commessa_risorsa", joinColumns = @JoinColumn(name = "commessa_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "risorsa_id", referencedColumnName = "ID"))
+	private List<Risorsa> risorse = new ArrayList();
+
 }

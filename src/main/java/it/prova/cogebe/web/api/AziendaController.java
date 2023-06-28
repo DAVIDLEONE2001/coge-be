@@ -1,7 +1,6 @@
 package it.prova.cogebe.web.api;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -19,46 +18,57 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.cogebe.dto.AziendaDTO;
+import it.prova.cogebe.model.Azienda;
 import it.prova.cogebe.service.AziendaService;
 
-
-@CrossOrigin
 @RestController
-@RequestMapping("/api/azienda")
+@RequestMapping("api/azienda")
+@CrossOrigin
 public class AziendaController {
 
 	@Autowired
-	private AziendaService service;
+	private AziendaService aziendaService;
 
-	
 	@GetMapping
-	public List<AziendaDTO> listAll() throws Exception {
-		return service.listAll().stream().map(atleta -> AziendaDTO.buildAziendaDTOFromModel(atleta))
-				.collect(Collectors.toList());
+	public List<AziendaDTO> getAll() {
+		return AziendaDTO.createAziendaDTOListFromModelList(aziendaService.listAll(), false);
 	}
-	
 
 	@GetMapping("/{id}")
-	public AziendaDTO caricaSingolo(@PathVariable(name = "id", required = true) Long id) throws Exception {
-		return AziendaDTO.buildAziendaDTOFromModel(service.caricaSingoloElemento(id));
+	public AziendaDTO caricaSingolo(@PathVariable(required = true) Long id) {
+		return AziendaDTO.buildAziendaDTOFromModel(aziendaService.caricaSingolo(id), false);
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public AziendaDTO inserisciNuovoAtleta(@Valid @RequestBody AziendaDTO input) throws Exception {
+	public AziendaDTO inserisciNuovo(@Valid @RequestBody AziendaDTO aziendaInstance) {
+		return AziendaDTO.buildAziendaDTOFromModel(aziendaService.inserisciNuovo(aziendaInstance.buildAziendaModel()),
+				false);
 
-		return AziendaDTO.buildAziendaDTOFromModel(service.inserisciNuovo(input.buildAziendaModel()));
 	}
-	
+
 	@PutMapping("/{id}")
-	public AziendaDTO aggiornaAtleta(@Valid @RequestBody AziendaDTO input) throws Exception {
-		return AziendaDTO.buildAziendaDTOFromModel(service.aggiorna(input.buildAziendaModel()));
+	public AziendaDTO update(@Valid @RequestBody AziendaDTO aziendaInstance, @PathVariable(required = true) Long id) {
+		aziendaInstance.setId(id);
+
+		return AziendaDTO.buildAziendaDTOFromModel(aziendaService.aggiorna(aziendaInstance.buildAziendaModel()), false);
+
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void rimuovi(@PathVariable(name = "id", required = true) Long id) throws Exception {
-		service.rimuovi(id);
+	public void delete(@PathVariable(required = true) Long id) {
+		Azienda aziendaDaEliminare = aziendaService.caricaSingolo(id);
+		aziendaService.rimuovi(aziendaDaEliminare);
+		AziendaDTO.buildAziendaDTOFromModel(aziendaDaEliminare, false);
 	}
-	
+
+	@GetMapping(value = "/aziendacostodesc")
+	public List<AziendaDTO> aziendaConImportoDesc() {
+		List<Azienda> listaAziendeInOrdine = aziendaService.cercaAziendaCostoDesc();
+
+		return AziendaDTO.createAziendaDTOListFromModelList(listaAziendeInOrdine, false);
+
+	}
+
 }

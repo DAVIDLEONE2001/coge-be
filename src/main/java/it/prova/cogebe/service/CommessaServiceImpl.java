@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.prova.cogebe.dto.ICommessaMargineDTO;
 import it.prova.cogebe.model.Commessa;
+import it.prova.cogebe.repository.AziendaRepository;
 import it.prova.cogebe.repository.CommessaRepository;
 
 @Service
@@ -16,8 +18,12 @@ public class CommessaServiceImpl implements CommessaService {
 	@Autowired
 	private CommessaRepository repository;
 
+	@Autowired
+	private AziendaRepository aziendaRepository;
+
 	@Override
 	public List<Commessa> listAll() {
+
 		return (List<Commessa>) repository.findAll();
 	}
 
@@ -26,39 +32,34 @@ public class CommessaServiceImpl implements CommessaService {
 		return repository.findById(id).orElse(null);
 	}
 
-	@Transactional
 	@Override
+	@Transactional
+	public Commessa inserisciNuovo(Commessa commessaInstance) {
+
+		return repository.save(commessaInstance);
+	}
+
+	@Override
+	@Transactional
 	public Commessa aggiorna(Commessa commessaInstance) {
 		return repository.save(commessaInstance);
 	}
 
+	@Override
 	@Transactional
-	@Override
-	public Commessa inserisciNuovo(Commessa commessaInstance) {
-		return repository.save(commessaInstance);
-	}
+	public void rimuovi(Long idToDelete) {
+		repository.deleteById(idToDelete);
 
-	@Transactional
-	@Override
-	public void rimuovi(Long idRapportino) {
-		repository.deleteById(idRapportino);
 	}
 
 	@Override
-	public List<Commessa> getCommesseChiuseOrderByMargineDecrescente() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ICommessaMargineDTO> commesseChiuseConMargineDecrescente() {
+		return repository.commesseChiuseConMargineDecrescente();
 	}
 
 	@Override
-	public List<Commessa> getCommesseByAzienda(Long idAzienda) {
-		// TODO Auto-generated method stub
-		return null;
+	public Commessa caricaSingoloEager(Long id) {
+		return repository.getSingleEager(id);
 	}
 
-	@Override
-	public double getMargineCommessa(Long idCommessa) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

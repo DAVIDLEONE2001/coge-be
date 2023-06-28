@@ -12,7 +12,6 @@ import it.prova.cogebe.repository.RapportinoRepository;
 @Service
 @Transactional(readOnly = true)
 public class RapportinoServiceImpl implements RapportinoService {
-
 	@Autowired
 	private RapportinoRepository repository;
 
@@ -26,29 +25,33 @@ public class RapportinoServiceImpl implements RapportinoService {
 		return repository.findById(id).orElse(null);
 	}
 
-	@Transactional
 	@Override
-	public Rapportino aggiorna(Rapportino rapportinoInstance) {
-		return repository.save(rapportinoInstance);
-	}
-
 	@Transactional
-	@Override
 	public Rapportino inserisciNuovo(Rapportino rapportinoInstance) {
 		return repository.save(rapportinoInstance);
 	}
 
-	@Transactional
 	@Override
-	public void rimuovi(Long idRapportino) throws Exception {
-		repository.deleteById(idRapportino);
+	@Transactional
+	public Rapportino aggiorna(Rapportino rapportinoInstance) {
+		return repository.save(rapportinoInstance);
+	}
+
+	@Override
+	@Transactional
+	public void rimuovi(Long idToDelete) {
+		repository.deleteById(idToDelete);
 
 	}
 
 	@Override
-	public List<Rapportino> listByCommessaId(Long commessaId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Rapportino> listAllElementsEager() {
+		return repository.getAllEagerWithRisorsa();
+	}
+
+	@Override
+	public Rapportino caricaElementoEager(Long id) {
+		return repository.getSingleEager(id);
 	}
 
 }

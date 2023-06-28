@@ -1,6 +1,7 @@
 package it.prova.cogebe.model;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,18 +25,19 @@ import lombok.NoArgsConstructor;
 @Table(name = "azienda")
 public class Azienda {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "ragionerociale")
+	@Column(name = "ragionesociale")
 	private String ragioneSociale;
-	@Column(name = "partitaiva")
+	@Column(name = "partivaiva")
 	private String partitaIva;
 	@Column(name = "indirizzo")
 	private String indirizzo;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "azienda")
-	List<Commessa> commesse;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@Builder.Default
+	private Set<Commessa> commesse = new HashSet<>();
+
 }

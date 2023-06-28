@@ -1,9 +1,12 @@
 package it.prova.cogebe.dto;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import it.prova.cogebe.model.Azienda;
 import lombok.AllArgsConstructor;
@@ -15,30 +18,46 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AziendaDTO {
+@JsonInclude(JsonInclude.Include.NON_NULL)
 
+public class AziendaDTO {
 	private Long id;
 
-	@NotBlank(message = "{ragioneSociale.notblank}")
+	@NotBlank(message = "{ragionesociale.notblank}")
 	private String ragioneSociale;
 
 	@NotBlank(message = "{partitaIva.notblank}")
 	private String partitaIva;
 
-	@NotBlank(message = "{partitaIva.notblank}")
+	@NotBlank(message = "{indirizzo.notblank}")
 	private String indirizzo;
 
-	List<CommessaDTO> commesse;
+	private List<CommessaDTO> commesse;
 
-	public static AziendaDTO buildAziendaDTOFromModel(Azienda aziendaModel) {
+	public Azienda buildAziendaModel() {
+		return Azienda.builder().id(this.id).ragioneSociale(this.ragioneSociale).partitaIva(this.partitaIva)
+				.indirizzo(this.indirizzo).build();
+	}
 
+	public static AziendaDTO buildAziendaDTOFromModel(Azienda aziendaModel, boolean includesCommesse) {
 		AziendaDTO result = AziendaDTO.builder().id(aziendaModel.getId())
 				.ragioneSociale(aziendaModel.getRagioneSociale()).partitaIva(aziendaModel.getPartitaIva())
 				.indirizzo(aziendaModel.getIndirizzo()).build();
-		if (aziendaModel.getCommesse() != null) {
-			result.setCommesse(CommessaDTO.createCommessaDTOListFromModelList(aziendaModel.getCommesse()));
+
+		if (includesCommesse) {
+			result.setCommesse(CommessaDTO.createCommessaDTOListFromModelSet(aziendaModel.getCommesse(), true, false));
 		}
 		return result;
+
+	}
+
+	public static List<AziendaDTO> createAziendaDTOListFromModelList(List<Azienda> modelListInput,
+			boolean includesCommesse) {
+		return modelListInput.stream().map(aziendaEntity -> {
+			AziendaDTO result = AziendaDTO.buildAziendaDTOFromModel(aziendaEntity, includesCommesse);
+
+			return result;
+		}).collect(Collectors.toList());
 	}
 
 	public static AziendaDTO buildAziendaDTOFromModelLazy(Azienda aziendaModel) {
@@ -60,36 +79,22 @@ public class AziendaDTO {
 		return result;
 	}
 
-	public static List<AziendaDTO> createAziendaDTOListFromModelList(List<Azienda> modelListInput, boolean eager) {
-		return modelListInput.stream().map(aziendaEntity -> {
-			if (eager) {
-				AziendaDTO result = AziendaDTO.buildAziendaDTOFromModel(aziendaEntity);
-				return result;
-
-			} else {
-				AziendaDTO result = AziendaDTO.buildAziendaDTOFromModelLazy(aziendaEntity);
-				return result;
-				}
-
-			
-		}).collect(Collectors.toList());
-
-	}
-
-	public Azienda buildAziendaModel() {
-		Azienda result = Azienda.builder().id(this.id).ragioneSociale(this.ragioneSociale).partitaIva(this.partitaIva)
-				.indirizzo(this.indirizzo).build();
-		if (this.commesse != null) {
-			result.setCommesse(CommessaDTO.createCommessaListFromDTOList(this.commesse,false));
-		}
-		return result;
-
+	public static Set<Azienda> createAziendaSetFromDTOList(List<AziendaDTO> modelListInput) {
+		return modelListInput.stream().map(aziendaItem -> {
+			return aziendaItem.buildAziendaModel();
+		}).collect(Collectors.toSet());
 	}
 
 	public static List<Azienda> createAziendaListFromDTOList(List<AziendaDTO> modelListInput) {
 		return modelListInput.stream().map(commessaDTOEntity -> {
 			Azienda result = commessaDTOEntity.buildAziendaModel();
 			return result;
+		}).collect(Collectors.toList());
+	}
+
+	public static List<AziendaDTO> createAziendaListFromModelSet(Set<Azienda> modelSetInput, boolean includesCommesse) {
+		return modelSetInput.stream().map(aziendaItem -> {
+			return AziendaDTO.buildAziendaDTOFromModel(aziendaItem, includesCommesse);
 		}).collect(Collectors.toList());
 	}
 

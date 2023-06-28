@@ -8,14 +8,16 @@ public interface RapportinoService {
 
 	public List<Rapportino> listAll();
 
+	public List<Rapportino> listAllElementsEager();
+
 	public Rapportino caricaSingoloElemento(Long id);
 
-	public Rapportino aggiorna(Rapportino rapportinoInstance);
+	public Rapportino caricaElementoEager(Long id);
 
 	public Rapportino inserisciNuovo(Rapportino rapportinoInstance);
 
-	public void rimuovi(Long idRapportino) throws Exception;
+	public Rapportino aggiorna(Rapportino rapportinoInstance);
 
-	public List<Rapportino> listByCommessaId(Long commessaId);
+	public void rimuovi(Long idToDelete);
 
 }

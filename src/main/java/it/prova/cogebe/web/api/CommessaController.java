@@ -1,7 +1,6 @@
 package it.prova.cogebe.web.api;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -19,43 +18,90 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.cogebe.dto.CommessaDTO;
+import it.prova.cogebe.dto.CommessaPerInsertDTO;
+import it.prova.cogebe.dto.ICommessaMargineDTO;
+import it.prova.cogebe.model.Azienda;
+import it.prova.cogebe.model.Commessa;
+import it.prova.cogebe.service.AziendaService;
 import it.prova.cogebe.service.CommessaService;
 
-@CrossOrigin
 @RestController
-@RequestMapping("/api/commessa")
+@RequestMapping("api/commessa")
+@CrossOrigin
 public class CommessaController {
 
 	@Autowired
-	private CommessaService service;
+	private CommessaService commessaService;
+
+	@Autowired
+	private AziendaService aziendaService;
 
 	@GetMapping
-	public List<CommessaDTO> listAll() throws Exception {
-		return service.listAll().stream().map(commessa -> CommessaDTO.buildCommessaDTOFromModel(commessa))
-				.collect(Collectors.toList());
+	public List<CommessaDTO> visualizzaCommesse() {
+		return CommessaDTO.createCommessaDTOListFromModelList(commessaService.listAll(), true, false);
+
 	}
 
 	@GetMapping("/{id}")
-	public CommessaDTO caricaSingolo(@PathVariable(name = "id", required = true) Long id) throws Exception {
-		return CommessaDTO.buildCommessaDTOFromModel(service.caricaSingoloElemento(id));
+	public CommessaDTO visualizza(@PathVariable(required = true) Long id) {
+		return CommessaDTO.buildCommessaDTOFromModel(commessaService.caricaSingoloEager(id), true, true);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CommessaDTO inserisciNuovaCommessa(@Valid @RequestBody CommessaDTO input) throws Exception {
+	public CommessaDTO createNew(@Valid @RequestBody CommessaPerInsertDTO commessaInput) {
+		if (commessaInput.getId() != null) {
+			throw new RuntimeException();
+		}
+		Azienda aziendaCaricata = aziendaService.caricaSingolo(commessaInput.getAzienda());
+		Commessa commessa = new Commessa();
+		commessa.setDescrizione(commessaInput.getDescrizione());
+		commessa.setCodice(commessaInput.getCodice());
+		commessa.setDataIn(commessaInput.getDataIn());
+		commessa.setDataOut(commessaInput.getDataOut());
+		commessa.setImporto(commessaInput.getImporto());
+		commessa.setAzienda(aziendaCaricata);
 
-		return CommessaDTO.buildCommessaDTOFromModel(service.inserisciNuovo(input.buildCommessaModel()));
+		Commessa commessaInserita = commessaService.inserisciNuovo(commessa);
+		return CommessaDTO.buildCommessaDTOFromModel(commessaInserita, false, false);
+
 	}
 
 	@PutMapping("/{id}")
-	public CommessaDTO aggiornaCommessa(@Valid @RequestBody CommessaDTO input) throws Exception {
-		return CommessaDTO.buildCommessaDTOFromModel(service.aggiorna(input.buildCommessaModel()));
+	@ResponseStatus(HttpStatus.OK)
+	public CommessaDTO update(@PathVariable Long id, @Valid @RequestBody CommessaPerInsertDTO commessaInput) {
+
+		Commessa commessaEsistente = commessaService.caricaSingoloElemento(id);
+		if (commessaEsistente == null) {
+			throw new RuntimeException("Commessa non trovata con id: " + id);
+		}
+
+		Azienda aziendaCaricata = aziendaService.caricaSingolo(commessaInput.getAzienda());
+		commessaEsistente.setDescrizione(commessaInput.getDescrizione());
+		commessaEsistente.setCodice(commessaInput.getCodice());
+		commessaEsistente.setDataIn(commessaInput.getDataIn());
+		commessaEsistente.setDataOut(commessaInput.getDataOut());
+		commessaEsistente.setImporto(commessaInput.getImporto());
+		commessaEsistente.setAzienda(aziendaCaricata);
+
+		Commessa commessaAggiornata = commessaService.aggiorna(commessaEsistente);
+
+		return CommessaDTO.buildCommessaDTOFromModel(commessaAggiornata, false, false);
+
 	}
 
-	@DeleteMapping("/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void rimuovi(@PathVariable(name = "id", required = true) Long id) throws Exception {
-		service.rimuovi(id);
+	@DeleteMapping("{id}")
+	public void delete(@PathVariable(required = true) Long id) {
+		commessaService.rimuovi(id);
+	}
+
+	@GetMapping("/commessechiusemarginedecrescente")
+	public List<ICommessaMargineDTO> commesseChiuseConMargineDecrescente() {
+		List<ICommessaMargineDTO> listaCommesseChiuseConMargineDecr = commessaService
+				.commesseChiuseConMargineDecrescente();
+
+		return listaCommesseChiuseConMargineDecr;
+
 	}
 
 }

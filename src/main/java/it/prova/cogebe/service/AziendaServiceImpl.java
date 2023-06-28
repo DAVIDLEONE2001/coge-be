@@ -17,35 +17,39 @@ public class AziendaServiceImpl implements AziendaService {
 	private AziendaRepository repository;
 
 	@Override
-	public List<Azienda> listAll() throws Exception {
+	public List<Azienda> listAll() {
 		return (List<Azienda>) repository.findAll();
 	}
 
 	@Override
-	public Azienda caricaSingoloElemento(Long id) throws Exception {
+	public Azienda caricaSingolo(Long id) {
 		return repository.findById(id).orElse(null);
 	}
 
-	@Transactional
 	@Override
-	public Azienda aggiorna(Azienda aziendaInstance) throws Exception {
-		if (caricaSingoloElemento(aziendaInstance.getId()) != null) {
-			return repository.save(aziendaInstance);
-		}
-		return null;
-
-	}
-
 	@Transactional
-	@Override
-	public Azienda inserisciNuovo(Azienda aziendaInstance) throws Exception {
+	public Azienda aggiorna(Azienda aziendaInstance) {
+
 		return repository.save(aziendaInstance);
 	}
 
-	@Transactional
 	@Override
-	public void rimuovi(Long idAtleta) throws Exception {
-		repository.deleteById(idAtleta);
+	@Transactional
+	public Azienda inserisciNuovo(Azienda aziendaInstance) {
+		return repository.save(aziendaInstance);
+
+	}
+
+	@Override
+	@Transactional
+	public void rimuovi(Azienda aziendaInstance) {
+		repository.delete(aziendaInstance);
+
+	}
+
+	@Override
+	public List<Azienda> cercaAziendaCostoDesc() {
+		return repository.findAziendeConCostoDesc();
 	}
 
 }

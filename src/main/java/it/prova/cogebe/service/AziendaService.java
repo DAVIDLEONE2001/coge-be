@@ -6,14 +6,16 @@ import it.prova.cogebe.model.Azienda;
 
 public interface AziendaService {
 
-	public List<Azienda> listAll() throws Exception;
+	public List<Azienda> listAll();
 
-	public Azienda caricaSingoloElemento(Long id) throws Exception;
+	public Azienda caricaSingolo(Long id);
 
-	public Azienda aggiorna(Azienda aziendaInstance) throws Exception;
+	public Azienda aggiorna(Azienda aziendaInstance);
 
-	public Azienda inserisciNuovo(Azienda aziendaInstance) throws Exception;
+	public Azienda inserisciNuovo(Azienda aziendaInstance);
 
-	public void rimuovi(Long idAtleta) throws Exception;
-	
+	public void rimuovi(Azienda aziendaInstance);
+
+	public List<Azienda> cercaAziendaCostoDesc();
+
 }

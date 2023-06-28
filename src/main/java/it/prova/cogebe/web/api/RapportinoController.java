@@ -1,7 +1,6 @@
 package it.prova.cogebe.web.api;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -19,53 +18,77 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.cogebe.dto.RapportinoDTO;
+import it.prova.cogebe.dto.RapportinoPerInsertDTO;
+import it.prova.cogebe.model.Commessa;
 import it.prova.cogebe.model.Rapportino;
+import it.prova.cogebe.model.Risorsa;
+import it.prova.cogebe.service.CommessaService;
 import it.prova.cogebe.service.RapportinoService;
+import it.prova.cogebe.service.RisorsaService;
 
-@CrossOrigin
 @RestController
-@RequestMapping("/api/rapportino")
+@RequestMapping("api/rapportino")
+@CrossOrigin
 public class RapportinoController {
 
-	private final RapportinoService rapportinoService;
+	@Autowired
+	private RapportinoService rapportinoService;
 
 	@Autowired
-	public RapportinoController(RapportinoService rapportinoService) {
-		this.rapportinoService = rapportinoService;
-	}
+	private RisorsaService risorsaService;
+
+	@Autowired
+	private CommessaService commessaService;
 
 	@GetMapping
-	public List<RapportinoDTO> listAll() throws Exception {
-		List<Rapportino> rapportini = rapportinoService.listAll();
-		return rapportini.stream().map(RapportinoDTO::buildRapportinoDTOFromModel).collect(Collectors.toList());
+	public List<RapportinoDTO> visualizzaRapportini() {
+		return RapportinoDTO.createRapportinoDTOListFromModelList(rapportinoService.listAllElementsEager(), false,
+				true);
+
 	}
 
 	@GetMapping("/{id}")
-	public RapportinoDTO getRapportino(@PathVariable("id") Long id) throws Exception {
-		Rapportino rapportino = rapportinoService.caricaSingoloElemento(id);
-		return RapportinoDTO.buildRapportinoDTOFromModel(rapportino);
+	public RapportinoDTO visualizza(@PathVariable(required = true) Long id) {
+		return RapportinoDTO.buildRapportinoDTOFromModel(rapportinoService.caricaElementoEager(id), true, true);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public RapportinoDTO createRapportino(@Valid @RequestBody RapportinoDTO rapportinoDTO) throws Exception {
-		Rapportino rapportino = rapportinoDTO.buildRapportinoModel();
-		rapportino = rapportinoService.inserisciNuovo(rapportino);
-		return RapportinoDTO.buildRapportinoDTOFromModel(rapportino);
+	public RapportinoDTO createNew(@Valid @RequestBody RapportinoPerInsertDTO rapportinoInput) {
+		if (rapportinoInput.getId() != null) {
+			throw new RuntimeException();
+		}
+		Risorsa risorsaCaricata = risorsaService.caricaSingoloElemento(rapportinoInput.getRisorsa());
+		Commessa commessaCaricata = commessaService.caricaSingoloElemento(rapportinoInput.getCommessa());
+		Rapportino rapportino = new Rapportino();
+		rapportino.setNumeroGiorni(rapportinoInput.getNumeroGiorni());
+		rapportino.setRisorsa(risorsaCaricata);
+		rapportino.setCommessa(commessaCaricata);
+		Rapportino rapportinoInserito = rapportinoService.inserisciNuovo(rapportino);
+//			rapportinoInserito.setRisorsa(risorsaCaricata);
+
+		return RapportinoDTO.buildRapportinoDTOFromModel(rapportinoInserito, false, false);
 	}
 
 	@PutMapping("/{id}")
-	public RapportinoDTO updateRapportino(@PathVariable("id") Long id, @Valid @RequestBody RapportinoDTO rapportinoDTO)
-			throws Exception {
-		Rapportino rapportino = rapportinoDTO.buildRapportinoModel();
-		rapportino.setId(id);
-		rapportino = rapportinoService.aggiorna(rapportino);
-		return RapportinoDTO.buildRapportinoDTOFromModel(rapportino);
+	@ResponseStatus(HttpStatus.OK)
+	public RapportinoDTO update(@PathVariable Long id, @Valid @RequestBody RapportinoPerInsertDTO rapportinoInput) {
+		Rapportino rapportinoEsistente = rapportinoService.caricaSingoloElemento(id);
+		if (rapportinoEsistente == null) {
+			throw new RuntimeException("Rapportino non trovato con id: " + id);
+		}
+		Risorsa risorsaCaricata = risorsaService.caricaSingoloElemento(rapportinoInput.getRisorsa());
+		Commessa commessaCaricata = commessaService.caricaSingoloElemento(rapportinoInput.getCommessa());
+		rapportinoEsistente.setNumeroGiorni(rapportinoInput.getNumeroGiorni());
+		rapportinoEsistente.setRisorsa(risorsaCaricata);
+		rapportinoEsistente.setCommessa(commessaCaricata);
+		Rapportino rapportinoAggiornato = rapportinoService.aggiorna(rapportinoEsistente);
+
+		return RapportinoDTO.buildRapportinoDTOFromModel(rapportinoAggiornato, false, false);
 	}
 
-	@DeleteMapping("/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteRapportino(@PathVariable("id") Long id) throws Exception {
+	@DeleteMapping("{id}")
+	public void delete(@PathVariable(required = true) Long id) {
 		rapportinoService.rimuovi(id);
 	}
 }
